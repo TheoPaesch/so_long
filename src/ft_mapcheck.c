@@ -6,42 +6,31 @@
 /*   By: tpaesch <tpaesch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:27:31 by tpaesch           #+#    #+#             */
-/*   Updated: 2024/01/17 17:23:49 by tpaesch          ###   ########.fr       */
+/*   Updated: 2024/01/23 18:46:56 by tpaesch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	filecheck1(int argc, char **argv)
+void	filecheck(int argc, char **argv)
 {
-	int			i;
-	const char	*ber = ".ber";
-
-	if (argc == 2 && ft_strlen(argv[1]) >= 4)
+	if (argc == 2)
 	{
-		i = 0;
-		while (i++ != 5)
+		if (ft_strncmp((argv[1] + (ft_strlen(argv[1]) - 4)), ".ber", 5) != 0)
 		{
-			if (argv[1][ft_strlen(argv[1] - 4 + i)] != ber[i])
-			{
-				sl_error(1);
-				exit(1);
-			}
+			sl_error(1);
+			exit(EXIT_FAILURE);
 		}
 	}
-}
-
-void	filecheck2(int argc, char **argv, t_so_long solong)
-{
 	if (argc > 2 || argc < 2)
 	{
-		sl_error(argc + 20);
-		exit(1);
+		sl_error_2(argc + 20);
+		exit(EXIT_FAILURE);
 	}
 	else if (ft_strlen(argv[1]) < 4)
 	{
 		sl_error(2);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -53,9 +42,9 @@ void	sl_rowcheck(t_so_long *solong)
 	while (i < solong->rows)
 	{
 		if (solong->map[i][0] != WALL)
-			error_exit(3);
+			error_exit(3, *solong);
 		else if (solong->map[i][solong->columns - 1] != WALL)
-			error_exit(4);
+			error_exit(4, *solong);
 		i++;
 	}
 }
@@ -68,9 +57,9 @@ void	sl_columncheck(t_so_long *solong)
 	while (i < solong->columns)
 	{
 		if (solong->map[0][i] != WALL)
-			error_exit(5);
+			error_exit(5, *solong);
 		if (solong->map[solong->rows - 1][i] != WALL)
-			error_exit(6);
+			error_exit(6, *solong);
 		i++;
 	}
 }
@@ -81,6 +70,7 @@ void	get_structinfo(t_so_long *solong)
 	int	y;
 
 	y = 0;
+	solong->coins = 0;
 	while (y < solong->rows)
 	{
 		x = 0;
@@ -108,11 +98,11 @@ void	sl_rectanglecheck(t_so_long *solong)
 
 	i = 0;
 	if (solong->columns < 4 && solong->rows < 4)
-		error_exit(7);
+		error_exit(7, *solong);
 	while (i < solong->rows)
 	{
-		if (ft_strlen(solong->map[i]) != solong->columns)
-			error_exit(8);
+		if ((int)ft_strlen(solong->map[i]) != solong->columns)
+			error_exit(8, *solong);
 		i++;
 	}
 }

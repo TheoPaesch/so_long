@@ -6,7 +6,7 @@
 /*   By: tpaesch <tpaesch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 15:24:22 by tpaesch           #+#    #+#             */
-/*   Updated: 2024/01/17 17:36:02 by tpaesch          ###   ########.fr       */
+/*   Updated: 2024/01/23 20:07:37 by tpaesch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	sl_error(int e)
 	if (e == 1)
 		ft_printf("%s", "this is the wrong file format!");
 	if (e == 2)
-		ft_printf("%s", "insufficient file! are zou trolling?");
+		ft_printf("%s", "insufficient file! are you trolling?");
 	if (e == 3)
 		ft_printf("%s", "first row isn't all WALLS, map invalid.");
 	if (e == 4)
@@ -34,6 +34,16 @@ void	sl_error(int e)
 		ft_printf("%s", "Map has no valid path to complete.");
 	if (e == 10)
 		ft_printf("%s", "something went wrong in mapparsing or mapsizing.");
+	if (e == 11)
+		ft_printf("%s", "mlx_init failed");
+	if (e > 11)
+		sl_error_2(e);
+}
+
+void	sl_error_2(int e)
+{
+	if (e == 12)
+		ft_printf("%s", "map duplication failed");
 	if (e == 21 || e == 20)
 		ft_printf("%s", "too few arguments!");
 	if (e > 22)
@@ -44,5 +54,22 @@ void	error_exit(int e, t_so_long solong)
 {
 	sl_error(e);
 	map_free(solong.map, solong.rows);
-	exit(1);
+	exit(EXIT_FAILURE);
+}
+
+void	end_exit(t_so_long *solong, int id)
+{
+	map_free(solong->map, solong->rows);
+	mlx_close_window(solong->mlx);
+	mlx_terminate(solong->mlx);
+	if (id == 1)
+	{
+		ft_printf("%s", "\nYOU BEAT THE GAME!! YOU'RE SUCH A GREAT GAMER!!\n");
+		exit(EXIT_SUCCESS);
+	}
+	if (id == 0)
+	{
+		ft_printf("%s", "\nsad gamer noises, why u no finish game?");
+		exit(EXIT_FAILURE);
+	}
 }

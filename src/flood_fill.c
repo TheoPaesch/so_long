@@ -6,7 +6,7 @@
 /*   By: tpaesch <tpaesch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 15:13:26 by tpaesch           #+#    #+#             */
-/*   Updated: 2024/01/17 15:19:27 by tpaesch          ###   ########.fr       */
+/*   Updated: 2024/01/23 18:47:20 by tpaesch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	dup_map(t_so_long solong, char ***dup)
 {
 	int	i;
 
-	if (ft_malloc_str_arr(solong.rows, (void **) dup))
+	if (ft_malloc_str_arr(solong.rows, dup))
 		return (1);
 	i = 0;
 	while (i < solong.rows)
@@ -54,11 +54,14 @@ void	flood_fill(char **map, t_position pos, t_flood_result *result)
 
 void	map_valid(t_so_long solong, t_flood_result *result)
 {
+	int		ret;
 	char	**dup;
 
-	dup = dup_map(solong, &dup);
+	ret = dup_map(solong, &dup);
+	if (ret == 1)
+		error_exit(12, solong);
 	result->coins = solong.coins;
-	flood_fill(dup, solong.player, &result);
+	flood_fill(dup, solong.player, result);
 	if (result->coins != 0 && result->exit != 1)
 	{
 		map_free(dup, solong.rows);
@@ -66,14 +69,3 @@ void	map_valid(t_so_long solong, t_flood_result *result)
 	}
 	map_free(dup, solong.rows);
 }
-
-// char **dup;
-// t_flood_result result;
-// result.coins = soglon.coins;
-// result.exit = 0;
-
-// dup_map(solong, &dup);
-// flood_fill(dup, solong.player, &result);
-
-// if (result.exit != 1 || reslt.coins != 0)
-//  error
