@@ -6,13 +6,15 @@ characters.c \
 hexa.c \
 numbers.c \
 string.c \
+gnl/get_next_line.c \
+gnl/get_next_line_utils.c
 
 
 OBJECTS	= ${SOURCES:.c=.o}
 
 INCLUDES	= ft_printf.h
 
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -g
 
 LIBFT_DIR	= ./libft
 

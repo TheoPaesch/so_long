@@ -6,7 +6,7 @@
 /*   By: tpaesch <tpaesch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:46:46 by tpaesch           #+#    #+#             */
-/*   Updated: 2024/01/23 20:14:15 by tpaesch          ###   ########.fr       */
+/*   Updated: 2024/01/24 00:03:38 by tpaesch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	on_key_pressed(mlx_key_data_t key_data, void *param)
 		player_movement(solong, solong->player.x - 1, solong->player.y, 'A');
 	else if (key_data.key == MLX_KEY_ESCAPE)
 	{
-		end_exit(solong, 1);
+		end_exit(solong, 0);
 		exit(0);
 	}
 }
@@ -47,7 +47,7 @@ void	player_movement(t_so_long *solong, int x, int y, char dir)
 	else if (solong->map[y][x] == 'E' && solong->coins == 0)
 	{
 		reload(solong, x, y, dir);
-		end_exit(solong, 0);
+		end_exit(solong, 1);
 	}
 }
 
