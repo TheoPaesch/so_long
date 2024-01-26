@@ -6,7 +6,7 @@
 /*   By: tpaesch <tpaesch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 15:13:26 by tpaesch           #+#    #+#             */
-/*   Updated: 2024/01/23 18:47:20 by tpaesch          ###   ########.fr       */
+/*   Updated: 2024/01/25 20:18:49 by tpaesch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	flood_fill(char **map, t_position pos, t_flood_result *result)
 	else if (*tile == 'C')
 		result->coins--;
 	else if (*tile == 'E')
-		result->exit = 1;
+		result->exit++;
 	*tile = '1';
 	flood_fill(map, (t_position){pos.y, pos.x + 1}, result);
 	flood_fill(map, (t_position){pos.y + 1, pos.x}, result);
@@ -61,11 +61,14 @@ void	map_valid(t_so_long solong, t_flood_result *result)
 	if (ret == 1)
 		error_exit(12, solong);
 	result->coins = solong.coins;
+	result->exit = 0;
 	flood_fill(dup, solong.player, result);
-	if (result->coins != 0 && result->exit != 1)
+	if (result->coins != 0 || result->exit < 1)
 	{
 		map_free(dup, solong.rows);
+		map_free(solong.map, solong.rows);
 		sl_error(9);
+		exit(1);
 	}
 	map_free(dup, solong.rows);
 }

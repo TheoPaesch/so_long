@@ -6,7 +6,7 @@
 /*   By: tpaesch <tpaesch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 14:40:05 by tpaesch           #+#    #+#             */
-/*   Updated: 2024/01/24 00:03:26 by tpaesch          ###   ########.fr       */
+/*   Updated: 2024/01/25 19:02:07 by tpaesch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,5 @@ int	main(int argc, char **argv)
 	load_images(&solong);
 	mlx_key_hook(solong.mlx, on_key_pressed, &solong);
 	mlx_loop(solong.mlx);
-	end_exit(&solong, 1);
+	end_exit(&solong, 0);
 }
