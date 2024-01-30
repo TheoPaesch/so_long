@@ -6,13 +6,10 @@
 /*   By: tpaesch <tpaesch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:30:38 by tpaesch           #+#    #+#             */
-/*   Updated: 2024/01/25 20:02:48 by tpaesch          ###   ########.fr       */
+/*   Updated: 2024/01/30 17:51:21 by tpaesch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
 #include "so_long.h"
 #include "get_next_line.h"
 
@@ -80,28 +77,4 @@ void	map_free(char **map, int i)
 	while (i--)
 		free(map[i]);
 	free(map);
-}
-
-int	map_parse(const char *fspath, t_so_long *data)
-{
-	int		fd;
-	char	*line;
-	int		i;
-
-	if (ft_malloc_str_arr(data->rows, &data->map))
-		return (1);
-	fd = open(fspath, O_RDONLY);
-	i = 0;
-	while (1)
-	{
-		line = get_line(fd);
-		if (line == NULL)
-			break ;
-		data->map[i] = line;
-		i++;
-	}
-	close(fd);
-	if (i != data->rows)
-		return (map_free(data->map, i), 1);
-	return (0);
 }

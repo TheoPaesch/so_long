@@ -6,7 +6,7 @@
 /*   By: tpaesch <tpaesch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:27:31 by tpaesch           #+#    #+#             */
-/*   Updated: 2024/01/23 18:46:56 by tpaesch          ###   ########.fr       */
+/*   Updated: 2024/01/30 16:51:55 by tpaesch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	get_structinfo(t_so_long *solong)
 
 	y = 0;
 	solong->coins = 0;
+	solong->players = 0;
+	solong->exit = 0;
 	while (y < solong->rows)
 	{
 		x = 0;
@@ -79,13 +81,9 @@ void	get_structinfo(t_so_long *solong)
 			if (solong->map[y][x] == COINS)
 				solong->coins++;
 			if (solong->map[y][x] == PLAYER)
-			{
-				solong->players++;
-				solong->player.x = x;
-				solong->player.y = y;
-			}
+				get_info(solong, x, y, 1);
 			if (solong->map[y][x] == MAP_EXIT)
-				solong->exit++;
+				get_info(solong, x, y, 2);
 			x++;
 		}
 		y++;

@@ -6,7 +6,7 @@
 /*   By: tpaesch <tpaesch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 14:40:19 by tpaesch           #+#    #+#             */
-/*   Updated: 2024/01/23 20:08:52 by tpaesch          ###   ########.fr       */
+/*   Updated: 2024/01/30 17:53:07 by tpaesch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ typedef struct s_so_long
 	int32_t			coins;
 	int32_t			players;
 	int32_t			exit;
+	int32_t			exit_x;
+	int32_t			exit_y;
+	size_t			moves;
 	mlx_t			*mlx;
 	mlx_image_t		*coin_front;
 	mlx_image_t		*coin_side;
@@ -79,5 +82,9 @@ int		load_images(t_so_long *sl);
 void	im_to_win(t_so_long *sl);
 int		load_texture(const char *fspath, mlx_image_t **tex, mlx_t *mlx);
 void	reload(t_so_long *sl, int32_t x, int32_t y, char dir);
+void	render_window(t_so_long *sl, char dir);
+void	get_info(t_so_long *solong, int x, int y, int id);
+char	*get_line(int fd);
+int		map_get_size(const char *fspath, t_so_long *solong);
 
 #endif

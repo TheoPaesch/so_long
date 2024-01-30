@@ -6,7 +6,7 @@
 /*   By: tpaesch <tpaesch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 15:13:26 by tpaesch           #+#    #+#             */
-/*   Updated: 2024/01/25 20:18:49 by tpaesch          ###   ########.fr       */
+/*   Updated: 2024/01/30 17:46:13 by tpaesch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,16 @@ void	map_valid(t_so_long solong, t_flood_result *result)
 	ret = dup_map(solong, &dup);
 	if (ret == 1)
 		error_exit(12, solong);
+	if (solong.coins == 0)
+		error_exit(14, solong);
+	if (solong.exit == 0)
+		error_exit(15, solong);
+	if (solong.players == 0)
+		error_exit(16, solong);
 	result->coins = solong.coins;
 	result->exit = 0;
 	flood_fill(dup, solong.player, result);
-	if (result->coins != 0 || result->exit < 1)
+	if (result->coins != 0 || result->exit != 1)
 	{
 		map_free(dup, solong.rows);
 		map_free(solong.map, solong.rows);

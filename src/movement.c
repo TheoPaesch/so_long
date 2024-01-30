@@ -6,12 +6,11 @@
 /*   By: tpaesch <tpaesch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:46:46 by tpaesch           #+#    #+#             */
-/*   Updated: 2024/01/24 00:03:38 by tpaesch          ###   ########.fr       */
+/*   Updated: 2024/01/30 17:50:03 by tpaesch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <stdio.h>
 
 void	on_key_pressed(mlx_key_data_t key_data, void *param)
 {
@@ -44,26 +43,26 @@ void	player_movement(t_so_long *solong, int x, int y, char dir)
 		solong->coins--;
 		reload(solong, x, y, dir);
 	}
-	else if (solong->map[y][x] == 'E' && solong->coins == 0)
+	else if (solong->map[y][x] == 'E')
 	{
-		reload(solong, x, y, dir);
-		end_exit(solong, 1);
+		if (solong->coins == 0)
+		{
+			reload(solong, x, y, dir);
+			end_exit(solong, 1);
+		}
+		else
+			reload(solong, x, y, dir);
 	}
 }
 
-void	reload(t_so_long *sl, int x, int y, char dir)
+void	render_window(t_so_long *sl, char dir)
 {
-	static int	i = 0;
-
-	i++;
-	ft_printf("%i\n", i);
-	mlx_image_to_window(sl->mlx, sl->grass, sl->player.x * PXL,
-		sl->player.y * PXL);
-	sl->map[sl->player.y][sl->player.x] = '0';
-	sl->map[y][x] = 'P';
-	sl->player.y = y;
-	sl->player.x = x;
-	mlx_image_to_window(sl->mlx, sl->grass, x * PXL, y * PXL);
+	if (sl->coins == 0)
+	{
+		sl->map[sl->exit_y][sl->exit_x] = 'E';
+		mlx_image_to_window(sl->mlx, sl->peach,
+			sl->exit_x * PXL, sl->exit_y * PXL);
+	}
 	if (dir == 'W')
 		mlx_image_to_window(sl->mlx, sl->mario_back, sl->player.x * PXL,
 			sl->player.y * PXL);
@@ -76,4 +75,18 @@ void	reload(t_so_long *sl, int x, int y, char dir)
 	else if (dir == 'D')
 		mlx_image_to_window(sl->mlx, sl->mario_right, sl->player.x * PXL,
 			sl->player.y * PXL);
+}
+
+void	reload(t_so_long *sl, int x, int y, char dir)
+{
+	sl->moves++;
+	ft_printf("%i\n", sl->moves);
+	mlx_image_to_window(sl->mlx, sl->grass, sl->player.x * PXL,
+		sl->player.y * PXL);
+	sl->map[sl->player.y][sl->player.x] = '0';
+	sl->map[y][x] = 'P';
+	sl->player.y = y;
+	sl->player.x = x;
+	mlx_image_to_window(sl->mlx, sl->grass, x * PXL, y * PXL);
+	render_window(sl, dir);
 }

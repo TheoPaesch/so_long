@@ -6,7 +6,7 @@
 /*   By: tpaesch <tpaesch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 12:28:36 by tpaesch           #+#    #+#             */
-/*   Updated: 2024/01/23 18:46:44 by tpaesch          ###   ########.fr       */
+/*   Updated: 2024/01/30 14:38:58 by tpaesch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ int	load_images(t_so_long *sl)
 	if (load_texture("Images/grass.png", &sl->grass, sl->mlx))
 		return (1);
 	if (load_texture("Images/coin_front.png", &sl->coin_front, sl->mlx))
-		return (1);
-	if (load_texture("Images/coin_side.png", &sl->coin_side, sl->mlx))
 		return (1);
 	if (load_texture("Images/mario_back.png", &sl->mario_back, sl->mlx))
 		return (1);
@@ -62,8 +60,13 @@ void	im_to_win(t_so_long *sl)
 				mlx_image_to_window(sl->mlx, sl->wall, x * PXL, y * PXL);
 			else if (sl->map[y][x] == 'P')
 				mlx_image_to_window(sl->mlx, sl->mario_front, x * PXL, y * PXL);
-			else if (sl->map[y][x] == 'E')
-				mlx_image_to_window(sl->mlx, sl->peach, x * PXL, y * PXL);
+			else if (sl->map[y][x] == 'E' )
+			{
+				if (sl->coins == 0)
+					mlx_image_to_window(sl->mlx, sl->peach, x * PXL, y * PXL);
+				else
+					mlx_image_to_window(sl->mlx, sl->grass, x * PXL, y * PXL);
+			}
 			else if (sl->map[y][x] == 'C')
 				mlx_image_to_window(sl->mlx, sl->coin_front, x * PXL, y * PXL);
 		}
