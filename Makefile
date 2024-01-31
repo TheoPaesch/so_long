@@ -27,12 +27,13 @@ HEADERS = include/so_long.h
 
 CC		:= cc
 
-all: $(LIBMLX) $(NAME)
+all: $(NAME)
 
 $(LIBFTA):
 	@make -C ./lib/libft
 
 $(LIBMLXA):
+	@if [ ! -d $(LIBMLX) ]; then git clone https://github.com/codam-coding-college/MLX42.git $(LIBMLX); fi
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
 %.o: %.c $(HEADERS) Makefile
@@ -47,7 +48,7 @@ clean:
 
 fclean: clean
 	@make -C ./lib/libft fclean
-	@cmake --build $(LIBMLX)/build --target clean
+	@rm -rf $(LIBMLX)
 	@rm -rf $(NAME)
 
 re: clean all
