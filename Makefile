@@ -27,7 +27,7 @@ HEADERS = include/so_long.h
 
 CC		:= cc
 
-all: libmlx $(NAME)
+all: $(LIBMLX) $(NAME)
 
 $(LIBFTA):
 	@make -C ./lib/libft
